@@ -1,7 +1,7 @@
 package com.item.controller;
 
 import com.common.dto.UploadBookForm;
-import com.common.dto.UploadMovieForm;
+import com.common.dto.UploadMovieForm ;
 import com.item.service.ItemService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

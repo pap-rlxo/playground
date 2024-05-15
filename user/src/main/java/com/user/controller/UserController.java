@@ -1,9 +1,12 @@
 package com.user.controller;
 
+import com.common.interceptor.auth.LoginUser;
 import com.common.domain.user.User;
 import com.common.dto.SignUpForm;
+import com.common.utils.Crypto;
 import com.user.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,8 +19,8 @@ public class UserController {
 
     @GetMapping("/me")
     @ResponseStatus(HttpStatus.OK)
-    public User me() {
-        return userService.get(1L);
+    public User me(@LoginUser User loginUser) {
+        return userService.get(loginUser.getId());
     }
 
     @PostMapping("/signUp")
