@@ -1,12 +1,12 @@
 package com.user.controller;
 
+import com.common.dto.UserDto;
 import com.common.interceptor.auth.LoginUser;
 import com.common.domain.user.User;
 import com.common.dto.SignUpForm;
-import com.common.utils.Crypto;
 import com.user.service.UserService;
+import com.user.utils.DtoUtils;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,13 +19,13 @@ public class UserController {
 
     @GetMapping("/me")
     @ResponseStatus(HttpStatus.OK)
-    public User me(@LoginUser User loginUser) {
-        return userService.get(loginUser.getId());
+    public UserDto me(@LoginUser User loginUser) {
+        return DtoUtils.toUserDto(userService.get(loginUser.getId()));
     }
 
     @PostMapping("/signUp")
     @ResponseStatus(HttpStatus.OK)
-    public User signup(@RequestBody SignUpForm signUpForm) {
-        return userService.signUp(signUpForm);
+    public UserDto signup(@RequestBody SignUpForm signUpForm) {
+        return DtoUtils.toUserDto(userService.signUp(signUpForm));
     }
 }

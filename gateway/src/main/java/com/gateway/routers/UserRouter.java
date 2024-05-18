@@ -2,44 +2,30 @@ package com.gateway.routers;
 
 import com.common.domain.user.User;
 import com.common.dto.SignUpForm;
-import com.common.utils.Crypto;
+import com.common.dto.UserDto;
 import com.gateway.PrincipalDetail;
+import com.gateway.service.ClientService;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpHeaders;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestClient;
-
-import java.util.function.Consumer;
 
 @RestController()
 @RequestMapping("/users")
+@RequiredArgsConstructor
 public class UserRouter {
 
-    @Value("${internal.auth.key}")
-    private String authKey;
+    final private ClientService clientService;
 
     static final String USER_BASE_URL = "http://localhost:8081/users";
 
     @GetMapping("/me")
-    public User test(@AuthenticationPrincipal PrincipalDetail user) throws Exception {
-        String seceretKey = Crypto.aesEcbEncrypt(authKey, user.getUser().getId().toString());
-        Consumer<HttpHeaders> headersConsumer = headers -> {
-            headers.set("Content-Type", "application/json");
-            headers.set("Authorization", seceretKey);
-        };
-        RestClient client = RestClient.create();
-        return client.get().uri(USER_BASE_URL + "/me")
-                .headers(
-                headersConsumer
-        )
-                .retrieve().toEntity(User.class).getBody();
+    public UserDto me(@AuthenticationPrincipal PrincipalDetail user) throws Exception {
+        return clientService.get(user, USER_BASE_URL + "/me", UserDto.class);
     }
 
     @PostMapping("/signUp")
-    public User signup(@Valid @RequestBody SignUpForm signUpForm) {
-        RestClient client = RestClient.create();
-        return client.post().uri(USER_BASE_URL + "/signUp").body(signUpForm).retrieve().toEntity(User.class).getBody();
+    public UserDto signup(@Valid @RequestBody SignUpForm signUpForm) throws Exception {
+        return clientService.post(null, USER_BASE_URL + "/signUp", signUpForm, UserDto.class);
     }
 }
