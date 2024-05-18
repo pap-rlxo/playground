@@ -19,7 +19,6 @@ public class LoginUserArgumentResolver implements HandlerMethodArgumentResolver 
     @Value("${internal.auth.key}")
     private String authKey;
 
-
     private final UserRepository userRepository;
 
     @Override
