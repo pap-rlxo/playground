@@ -1,9 +1,11 @@
 package com.item.service;
 
 import com.common.domain.Item.Book;
+import com.common.domain.Item.Movie;
+import com.common.domain.user.User;
 import com.common.dto.UploadBookForm;
 import com.common.dto.UploadMovieForm;
-import com.item.repository.ItemRepository;
+import com.common.repository.item.ItemRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,10 +14,11 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 @Transactional
 public class ItemServiceImpl implements ItemService {
+
     private final ItemRepository itemRepository;
 
     @Override
-    public void uploadBook(UploadBookForm uploadBookForm) {
+    public Book uploadBook(User user, UploadBookForm uploadBookForm) {
         Book book = new Book(
                 uploadBookForm.getAuthor(),
                 uploadBookForm.getPublisher(),
@@ -24,13 +27,25 @@ public class ItemServiceImpl implements ItemService {
                 uploadBookForm.getItemPrice(),
                 uploadBookForm.getItemStock(),
                 uploadBookForm.getItemName(),
-                uploadBookForm.getSellerId()
+                user.getId()
         );
-        itemRepository.save(book);
+        return itemRepository.save(book);
     }
 
     @Override
-    public void uploadMovie(UploadMovieForm uploadMovieForm) {
-
+    public Movie uploadMovie(User user, UploadMovieForm uploadMovieForm) {
+        Movie movie = new Movie(
+                uploadMovieForm.getTitle(),
+                uploadMovieForm.getDirector(),
+                uploadMovieForm.getReleaseYear(),
+                uploadMovieForm.getGenre(),
+                uploadMovieForm.getRating(),
+                uploadMovieForm.getItemDescription(),
+                uploadMovieForm.getItemPrice(),
+                uploadMovieForm.getItemStock(),
+                uploadMovieForm.getItemName(),
+                user.getId()
+                );
+        return itemRepository.save(movie);
     }
 }

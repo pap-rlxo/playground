@@ -2,10 +2,12 @@ package com.common.domain.Item;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
 @Entity
+@NoArgsConstructor
 public class Book extends Item {
 
     public Book(

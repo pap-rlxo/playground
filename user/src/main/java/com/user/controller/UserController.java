@@ -8,6 +8,7 @@ import com.user.service.UserService;
 import com.user.utils.DtoUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -18,14 +19,14 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping("/me")
-    @ResponseStatus(HttpStatus.OK)
-    public UserDto me(@LoginUser User loginUser) {
-        return DtoUtils.toUserDto(userService.get(loginUser.getId()));
+    public ResponseEntity<UserDto> me(@LoginUser User loginUser) {
+        UserDto userDto = DtoUtils.toUserDto(userService.get(loginUser.getId()));
+        return ResponseEntity.status(HttpStatus.OK).body(userDto);
     }
 
     @PostMapping("/signUp")
-    @ResponseStatus(HttpStatus.OK)
-    public UserDto signup(@RequestBody SignUpForm signUpForm) {
-        return DtoUtils.toUserDto(userService.signUp(signUpForm));
+    public ResponseEntity<UserDto> signup(@RequestBody SignUpForm signUpForm) {
+        UserDto userDto = DtoUtils.toUserDto(userService.signUp(signUpForm));
+        return ResponseEntity.status(HttpStatus.CREATED).body(userDto);
     }
 }

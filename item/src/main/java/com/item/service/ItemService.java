@@ -1,9 +1,12 @@
 package com.item.service;
 
+import com.common.domain.Item.Book;
+import com.common.domain.Item.Movie;
+import com.common.domain.user.User;
 import com.common.dto.UploadBookForm;
 import com.common.dto.UploadMovieForm;
 
 public interface ItemService {
-    void uploadBook(UploadBookForm uploadBookForm);
-    void uploadMovie(UploadMovieForm uploadMovieForm);
+    Book uploadBook(User user, UploadBookForm uploadBookForm);
+    Movie uploadMovie(User user, UploadMovieForm uploadMovieForm);
 }

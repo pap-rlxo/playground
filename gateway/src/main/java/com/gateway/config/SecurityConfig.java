@@ -35,8 +35,8 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable).authorizeRequests(authorizeRequests ->
                         authorizeRequests
-//                                .requestMatchers(HttpMethod.GET, "/login", "/signUp").permitAll()
                                 .requestMatchers(HttpMethod.POST, "/users/signUp").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/users/test").permitAll()
                                 .anyRequest().authenticated()
                 )
                 .formLogin(login -> login    // form 방식 로그인 사용
