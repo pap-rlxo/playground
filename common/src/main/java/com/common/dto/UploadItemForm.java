@@ -5,8 +5,6 @@ import lombok.Data;
 
 @Data
 abstract class UploadItemForm {
-    private Long itemId;
-
     @NotNull(message = "Description is required")
     private String itemDescription;
 

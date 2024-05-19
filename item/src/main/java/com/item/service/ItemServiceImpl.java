@@ -1,14 +1,23 @@
 package com.item.service;
 
 import com.common.domain.Item.Book;
+import com.common.domain.Item.Item;
 import com.common.domain.Item.Movie;
 import com.common.domain.user.User;
+import com.common.dto.UpdateBookForm;
+import com.common.dto.UpdateMovieForm;
 import com.common.dto.UploadBookForm;
 import com.common.dto.UploadMovieForm;
+import com.common.exception.ElementNotFoundException;
+import com.common.repository.item.BookRepository;
 import com.common.repository.item.ItemRepository;
+import com.common.repository.item.MovieRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -16,10 +25,14 @@ import org.springframework.transaction.annotation.Transactional;
 public class ItemServiceImpl implements ItemService {
 
     private final ItemRepository itemRepository;
+    private final BookRepository bookRepository;
+    private final MovieRepository movieRepository;
+
 
     @Override
     public Book uploadBook(User user, UploadBookForm uploadBookForm) {
-        Book book = new Book(
+        Book book = new Book();
+        book.update(
                 uploadBookForm.getAuthor(),
                 uploadBookForm.getPublisher(),
                 uploadBookForm.getPublicationDate(),
@@ -34,7 +47,8 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public Movie uploadMovie(User user, UploadMovieForm uploadMovieForm) {
-        Movie movie = new Movie(
+        Movie movie = new Movie();
+        movie.update(
                 uploadMovieForm.getTitle(),
                 uploadMovieForm.getDirector(),
                 uploadMovieForm.getReleaseYear(),
@@ -45,7 +59,45 @@ public class ItemServiceImpl implements ItemService {
                 uploadMovieForm.getItemStock(),
                 uploadMovieForm.getItemName(),
                 user.getId()
-                );
+        );
+        return itemRepository.save(movie);
+    }
+
+    @Override
+    public Book updateBook(User user, UpdateBookForm updateBookForm) {
+        Book book = bookRepository.findById(updateBookForm.getItemId()).orElseThrow(
+                ElementNotFoundException::new
+        );
+        book.update(
+                updateBookForm.getAuthor(),
+                updateBookForm.getPublisher(),
+                updateBookForm.getPublicationDate(),
+                updateBookForm.getItemDescription(),
+                updateBookForm.getItemPrice(),
+                updateBookForm.getItemStock(),
+                updateBookForm.getItemName(),
+                user.getId()
+        );
+        return itemRepository.save(book);
+    }
+
+    @Override
+    public Movie updateMovie(User user, UpdateMovieForm updateMovieForm) {
+        Movie movie = movieRepository.findById(updateMovieForm.getItemId()).orElseThrow(
+                ElementNotFoundException::new
+        );
+        movie.update(
+                updateMovieForm.getTitle(),
+                updateMovieForm.getDirector(),
+                updateMovieForm.getReleaseYear(),
+                updateMovieForm.getGenre(),
+                updateMovieForm.getRating(),
+                updateMovieForm.getItemDescription(),
+                updateMovieForm.getItemPrice(),
+                updateMovieForm.getItemStock(),
+                updateMovieForm.getItemName(),
+                user.getId()
+        );
         return itemRepository.save(movie);
     }
 }

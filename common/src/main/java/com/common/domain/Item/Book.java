@@ -1,16 +1,29 @@
 package com.common.domain.Item;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
 @Entity
 @NoArgsConstructor
+@DiscriminatorValue("BOOK")
+@Getter
 public class Book extends Item {
 
-    public Book(
+    @Column(nullable = false, length = 8)
+    private String author;
+
+    @Column(nullable = false, length = 8)
+    private String publisher;
+
+    @Column(nullable = false)
+    private LocalDateTime publicationDate;
+
+    public void update(
             String author,
             String publisher,
             LocalDateTime publicationDate,
@@ -29,14 +42,5 @@ public class Book extends Item {
         this.setItemName(itemName);
         this.setSellerId(sellerId);
     }
-
-    @Column(nullable = false, length = 8)
-    private String author;
-
-    @Column(nullable = false, length = 8)
-    private String publisher;
-
-    @Column(nullable = false)
-    private LocalDateTime publicationDate;
 }
 

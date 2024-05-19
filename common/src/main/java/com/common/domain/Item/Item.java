@@ -6,9 +6,9 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Table(name = "items", indexes = @Index(columnList = "sellerId", unique = true))
+@Table(name = "items", indexes = {@Index(columnList = "sellerId", unique = false), @Index(columnList = "type", unique = false)})
 @Inheritance(strategy = InheritanceType.JOINED)
-@DiscriminatorColumn(name = "type")
+@DiscriminatorColumn(name = "type", discriminatorType = DiscriminatorType.STRING)
 @Getter
 @Setter
 public class Item extends AbstractBaseEntity {
@@ -27,4 +27,7 @@ public class Item extends AbstractBaseEntity {
 
     @Column(nullable = false)
     private int itemStock;
+
+    @Column(insertable = false, updatable = false)
+    private String type;
 }
