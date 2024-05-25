@@ -5,9 +5,10 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class KafkaConsumer {
+    static int count = 0;
 
     @KafkaListener(topics = "upload", groupId = "group_1")
-    public void listener(Object data) {
-        System.out.println(data);
+    public void listener1(Object data) {
+
     }
 }
