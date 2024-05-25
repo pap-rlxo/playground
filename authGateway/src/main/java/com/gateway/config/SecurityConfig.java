@@ -24,10 +24,10 @@ import static org.springframework.security.config.Customizer.withDefaults;
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-    private final LoginSuccessHandler loginSuccessHandler;
+    private final CustomLoginSuccessHandler loginSuccessHandler;
     private final CustomLogoutSuccessHandler logoutSuccessHandler;
-    private final LoginFailedHandler failedHandler;
-    private final UserAuthenticationEntryPoint userAuthenticationEntryPoint;
+    private final CustomLoginFailedHandler failedHandler;
+    private final CustomUserAuthenticationEntryPoint userAuthenticationEntryPoint;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
