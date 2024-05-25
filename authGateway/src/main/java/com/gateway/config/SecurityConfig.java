@@ -1,5 +1,6 @@
 package com.gateway.config;
 
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,6 +15,7 @@ import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
@@ -23,6 +25,7 @@ import static org.springframework.security.config.Customizer.withDefaults;
 public class SecurityConfig {
 
     private final LoginSuccessHandler loginSuccessHandler;
+    private final CustomLogoutSuccessHandler logoutSuccessHandler;
     private final LoginFailedHandler failedHandler;
     private final UserAuthenticationEntryPoint userAuthenticationEntryPoint;
 
@@ -40,10 +43,18 @@ public class SecurityConfig {
                                 .anyRequest().authenticated()
                 )
                 .formLogin(login -> login    // form 방식 로그인 사용
-                                .loginProcessingUrl("/login_proc") // 로그인 요청 url
-                                .successHandler(loginSuccessHandler)
-                                .failureHandler(failedHandler)
-                ).logout(withDefaults())
+                        .loginProcessingUrl("/login_proc") // 로그인 요청 url
+                        .successHandler(loginSuccessHandler)
+                        .failureHandler(failedHandler)
+                ).logout(logout -> logout
+                        .logoutUrl("/logout")
+                        .deleteCookies("JSESSIONID")
+                        .addLogoutHandler((request, response, authentication) -> {
+                            HttpSession session = request.getSession();
+                            session.invalidate();
+                        })
+                        .logoutSuccessHandler(logoutSuccessHandler)
+                )
                 .sessionManagement(sessionManagement -> sessionManagement
                         .sessionFixation().changeSessionId()
                         .maximumSessions(1)

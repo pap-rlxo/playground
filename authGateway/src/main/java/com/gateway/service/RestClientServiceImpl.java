@@ -6,6 +6,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.retry.annotation.Backoff;
+import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 
@@ -13,6 +15,7 @@ import java.util.function.Consumer;
 
 @Service
 @RequiredArgsConstructor
+@Retryable(maxAttempts = 3, backoff = @Backoff(random = true, maxDelay = 1000))
 public class RestClientServiceImpl implements ClientService {
 
     @Value("${internal.auth.key}")
