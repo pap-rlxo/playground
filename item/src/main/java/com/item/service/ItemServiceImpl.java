@@ -53,4 +53,16 @@ public class ItemServiceImpl implements ItemService {
         movie.update(updateMovieForm.getTitle(), updateMovieForm.getDirector(), updateMovieForm.getReleaseYear(), updateMovieForm.getGenre(), updateMovieForm.getRating(), updateMovieForm.getItemDescription(), updateMovieForm.getItemPrice(), updateMovieForm.getItemStock(), updateMovieForm.getItemName(), user.getId());
         return itemRepository.save(movie);
     }
+
+    @Transactional(readOnly = true)
+    @Override
+    public Book getBook(Long id) {
+        return bookRepository.findById(id).orElseThrow(ElementNotFoundException::new);
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public Movie getMovie(Long id) {
+        return movieRepository.findById(id).orElseThrow(ElementNotFoundException::new);
+    }
 }

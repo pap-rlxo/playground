@@ -1,4 +1,4 @@
-package com.item.controller;
+package com.item.controller.external;
 
 import com.common.domain.user.User;
 import com.common.dto.UpdateBookForm;
@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/items")
-public class ItemController {
+@RequestMapping("/external/items")
+public class ExternalItemController {
 
     private final ItemService itemService;
 

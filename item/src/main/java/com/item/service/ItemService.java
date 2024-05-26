@@ -13,4 +13,6 @@ public interface ItemService {
     Movie uploadMovie(User user, UploadMovieForm uploadMovieForm);
     Book updateBook(User user, UpdateBookForm uploadBookForm);
     Movie updateMovie(User user, UpdateMovieForm uploadMovieForm);
+    Book getBook(Long id);
+    Movie getMovie(Long id);
 }

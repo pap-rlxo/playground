@@ -2,6 +2,7 @@ package com.gateway.routers;
 
 import com.common.dto.*;
 import com.gateway.PrincipalDetail;
+
 import com.gateway.service.ClientService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +18,7 @@ public class ItemRouter {
 
     final private ClientService clientService;
 
-    static final String ITEM_BASE_URL = "http://localhost:8082/items";
+    static final String ITEM_BASE_URL = "http://localhost:8082/external/items";
 
     @PostMapping("/upload/book")
     public ResponseEntity<Void> uploadBook(@AuthenticationPrincipal PrincipalDetail loginUser, @Valid @RequestBody UploadBookForm uploadBookForm) throws Exception {
