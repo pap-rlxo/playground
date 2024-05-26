@@ -13,7 +13,7 @@ import com.common.repository.item.BookRepository;
 import com.common.repository.item.ItemRepository;
 import com.common.repository.item.MovieRepository;
 import com.common.repository.user.UserRepository;
-import com.item.controller.external.ItemController;
+import com.item.controller.external.ExternalItemController;
 import config.ItemTestConfig;
 import jakarta.transaction.Transactional;
 import org.assertj.core.api.Assertions;
@@ -34,7 +34,7 @@ import java.time.LocalDateTime;
 class ItemControllerTest {
 
     @Autowired
-    ItemController itemController;
+    ExternalItemController itemController;
     @Autowired
     UserRepository userRepository;
     @Autowired

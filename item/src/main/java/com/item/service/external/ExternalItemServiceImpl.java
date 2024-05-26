@@ -1,4 +1,4 @@
-package com.item.service;
+package com.item.service.external;
 
 import com.common.domain.Item.Book;
 import com.common.domain.Item.Movie;
@@ -20,7 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 @Transactional
 @SendUploadItemEvent
-public class ItemServiceImpl implements ItemService {
+public class ExternalItemServiceImpl implements ExternalItemService {
 
     private final ItemRepository itemRepository;
     private final BookRepository bookRepository;
@@ -52,17 +52,5 @@ public class ItemServiceImpl implements ItemService {
         Movie movie = movieRepository.findById(updateMovieForm.getItemId()).orElseThrow(ElementNotFoundException::new);
         movie.update(updateMovieForm.getTitle(), updateMovieForm.getDirector(), updateMovieForm.getReleaseYear(), updateMovieForm.getGenre(), updateMovieForm.getRating(), updateMovieForm.getItemDescription(), updateMovieForm.getItemPrice(), updateMovieForm.getItemStock(), updateMovieForm.getItemName(), user.getId());
         return itemRepository.save(movie);
-    }
-
-    @Transactional(readOnly = true)
-    @Override
-    public Book getBook(Long id) {
-        return bookRepository.findById(id).orElseThrow(ElementNotFoundException::new);
-    }
-
-    @Transactional(readOnly = true)
-    @Override
-    public Movie getMovie(Long id) {
-        return movieRepository.findById(id).orElseThrow(ElementNotFoundException::new);
     }
 }

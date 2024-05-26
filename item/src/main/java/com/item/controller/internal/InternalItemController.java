@@ -4,7 +4,7 @@ import com.common.aop.InternalAuthCheck;
 
 import com.common.domain.Item.Book;
 import com.common.domain.Item.Movie;
-import com.item.service.ItemService;
+import com.item.service.internal.InternalItemService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/internal/items")
 public class InternalItemController {
 
-    private final ItemService itemService;
+    private final InternalItemService itemService;
 
     @GetMapping("/books/{id}")
     public ResponseEntity<Book> getBook(@PathVariable Long id) throws Exception {

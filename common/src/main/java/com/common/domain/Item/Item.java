@@ -27,7 +27,4 @@ public class Item extends AbstractBaseEntity {
 
     @Column(nullable = false)
     private int itemStock;
-
-    @Column(insertable = false, updatable = false)
-    private String type;
 }

@@ -6,7 +6,7 @@ import com.common.dto.UpdateMovieForm;
 import com.common.dto.UploadBookForm;
 import com.common.dto.UploadMovieForm;
 import com.common.interceptor.auth.LoginUser;
-import com.item.service.ItemService;
+import com.item.service.external.ExternalItemService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/external/items")
 public class ExternalItemController {
 
-    private final ItemService itemService;
+    private final ExternalItemService itemService;
 
     @PostMapping("/upload/book")
     public ResponseEntity<Void> uploadBook(@LoginUser User loginUser, @Valid @RequestBody UploadBookForm uploadBookForm) {

@@ -1,4 +1,4 @@
-package com.item.service;
+package com.item.service.external;
 
 import com.common.domain.Item.Book;
 import com.common.domain.Item.Movie;
@@ -8,11 +8,9 @@ import com.common.dto.UpdateMovieForm;
 import com.common.dto.UploadBookForm;
 import com.common.dto.UploadMovieForm;
 
-public interface ItemService {
+public interface ExternalItemService {
     Book uploadBook(User user, UploadBookForm uploadBookForm);
     Movie uploadMovie(User user, UploadMovieForm uploadMovieForm);
     Book updateBook(User user, UpdateBookForm uploadBookForm);
     Movie updateMovie(User user, UpdateMovieForm uploadMovieForm);
-    Book getBook(Long id);
-    Movie getMovie(Long id);
 }
