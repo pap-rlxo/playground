@@ -1,4 +1,4 @@
-package com.common.domain.Item;
+package com.common.domain;
 
 public enum Genre {
     ACTION,

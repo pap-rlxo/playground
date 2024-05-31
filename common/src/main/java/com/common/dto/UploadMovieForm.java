@@ -1,6 +1,6 @@
 package com.common.dto;
 
-import com.common.domain.Item.Genre;
+import com.common.domain.Genre;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 

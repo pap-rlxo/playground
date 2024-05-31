@@ -1,8 +1,8 @@
 package com.item.aop;
 
 import com.common.domain.Item.Book;
-import com.common.domain.Item.ItemType;
 import com.common.domain.Item.Movie;
+import com.common.domain.ItemType;
 import com.common.service.KafkaProducer;
 import com.common.service.KafkaTopic;
 import com.common.service.KafkaUploadItemEventForm;

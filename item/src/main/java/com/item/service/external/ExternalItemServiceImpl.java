@@ -44,13 +44,13 @@ public class ExternalItemServiceImpl implements ExternalItemService {
     public Book updateBook(User user, UpdateBookForm updateBookForm) {
         Book book = bookRepository.findById(updateBookForm.getItemId()).orElseThrow(ElementNotFoundException::new);
         book.update(updateBookForm.getAuthor(), updateBookForm.getPublisher(), updateBookForm.getPublicationDate(), updateBookForm.getItemDescription(), updateBookForm.getItemPrice(), updateBookForm.getItemStock(), updateBookForm.getItemName(), user.getId());
-        return itemRepository.save(book);
+        return book;
     }
 
     @Override
     public Movie updateMovie(User user, UpdateMovieForm updateMovieForm) {
         Movie movie = movieRepository.findById(updateMovieForm.getItemId()).orElseThrow(ElementNotFoundException::new);
         movie.update(updateMovieForm.getTitle(), updateMovieForm.getDirector(), updateMovieForm.getReleaseYear(), updateMovieForm.getGenre(), updateMovieForm.getRating(), updateMovieForm.getItemDescription(), updateMovieForm.getItemPrice(), updateMovieForm.getItemStock(), updateMovieForm.getItemName(), user.getId());
-        return itemRepository.save(movie);
+        return movie;
     }
 }

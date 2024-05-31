@@ -1,5 +1,6 @@
 package com.common.domain.Item;
 
+import com.common.domain.Genre;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

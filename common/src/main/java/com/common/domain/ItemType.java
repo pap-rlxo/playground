@@ -1,6 +1,4 @@
-package com.common.domain.Item;
-
-import lombok.RequiredArgsConstructor;
+package com.common.domain;
 
 public enum ItemType {
 

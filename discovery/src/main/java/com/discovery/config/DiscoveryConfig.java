@@ -7,9 +7,9 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @Configuration
-@EntityScan(basePackages = {"com.common.domain.item", "com.common.domain.user"})
+@EntityScan(basePackages = {"com.common.domain.discovery", "com.common.domain.user"})
 @ComponentScan(basePackages = {"com.common", "com.discovery"})
-@EnableJpaRepositories(basePackages = {"com.common.repository.item", "com.common.repository.user"})
+@EnableJpaRepositories(basePackages = {"com.common.repository.user", "com.common.repository.discovery"})
 @EnableJpaAuditing
 public class DiscoveryConfig {
 }

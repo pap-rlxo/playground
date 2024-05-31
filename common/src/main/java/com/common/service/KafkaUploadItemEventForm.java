@@ -1,6 +1,6 @@
 package com.common.service;
 
-import com.common.domain.Item.ItemType;
+import com.common.domain.ItemType;
 import lombok.Getter;
 
 @Getter
