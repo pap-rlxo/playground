@@ -14,7 +14,7 @@ import lombok.Setter;
 public class Item extends AbstractBaseEntity {
 
     @Column(nullable = false)
-    private Long sellerId;
+    private Long itemSellerId;
 
     @Column(nullable = false, length = 8)
     private String itemName;

@@ -3,25 +3,27 @@ package com.common.domain.Item;
 import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
 @Entity
+@Table(name = "books")
 @NoArgsConstructor
 @DiscriminatorValue("BOOK")
 @Getter
 public class Book extends Item {
 
     @Column(nullable = false, length = 8)
-    private String author;
+    private String bookAuthor;
 
     @Column(nullable = false, length = 8)
-    private String publisher;
+    private String bookPublisher;
 
     @Column(nullable = false)
-    private LocalDateTime publicationDate;
+    private LocalDateTime bookPublicationDate;
 
     public void update(
             String author,
@@ -33,14 +35,14 @@ public class Book extends Item {
             String itemName,
             Long sellerId
     ) {
-        this.author = author;
-        this.publisher = publisher;
-        this.publicationDate = publicationDate;
+        this.bookAuthor = author;
+        this.bookPublisher = publisher;
+        this.bookPublicationDate = publicationDate;
         this.setItemDescription(itemDescription);
         this.setItemPrice(itemPrice);
         this.setItemStock(itemStock);
         this.setItemName(itemName);
-        this.setSellerId(sellerId);
+        this.setItemSellerId(sellerId);
     }
 }
 

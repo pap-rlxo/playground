@@ -14,13 +14,34 @@ import java.time.LocalDateTime;
 @Getter
 public class DiscoveryBook extends DiscoveryItem {
 
-    @Column(nullable = false, length = 8)
-    private String author;
 
-    @Column(nullable = false, length = 8)
-    private String publisher;
+    @Column(nullable = true, length = 8)
+    private String bookAuthor;
 
-    @Column(nullable = false)
-    private LocalDateTime publicationDate;
+    @Column(nullable = true, length = 8)
+    private String bookPublisher;
+
+    @Column(nullable = true)
+    private LocalDateTime bookPublicationDate;
+
+    public void update(
+            String author,
+            String publisher,
+            LocalDateTime publicationDate,
+            String itemDescription,
+            Long itemPrice,
+            int itemStock,
+            String itemName,
+            Long sellerId
+    ) {
+        this.bookAuthor = author;
+        this.bookPublisher = publisher;
+        this.bookPublicationDate = publicationDate;
+        this.setItemDescription(itemDescription);
+        this.setItemPrice(itemPrice);
+        this.setItemStock(itemStock);
+        this.setItemName(itemName);
+        this.setItemSellerId(sellerId);
+    }
 }
 

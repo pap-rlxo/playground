@@ -18,14 +18,15 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
-@Transactional
 @SendUploadItemEvent
+@Transactional
 public class ExternalItemServiceImpl implements ExternalItemService {
 
     private final ItemRepository itemRepository;
     private final BookRepository bookRepository;
     private final MovieRepository movieRepository;
 
+    @Transactional(readOnly = false)
     @Override
     public Book uploadBook(User user, UploadBookForm uploadBookForm) {
         Book book = new Book();
@@ -33,6 +34,7 @@ public class ExternalItemServiceImpl implements ExternalItemService {
         return itemRepository.save(book);
     }
 
+    @Transactional(readOnly = false)
     @Override
     public Movie uploadMovie(User user, UploadMovieForm uploadMovieForm) {
         Movie movie = new Movie();
@@ -40,6 +42,7 @@ public class ExternalItemServiceImpl implements ExternalItemService {
         return itemRepository.save(movie);
     }
 
+    @Transactional(readOnly = false)
     @Override
     public Book updateBook(User user, UpdateBookForm updateBookForm) {
         Book book = bookRepository.findById(updateBookForm.getItemId()).orElseThrow(ElementNotFoundException::new);
@@ -47,6 +50,7 @@ public class ExternalItemServiceImpl implements ExternalItemService {
         return book;
     }
 
+    @Transactional(readOnly = false)
     @Override
     public Movie updateMovie(User user, UpdateMovieForm updateMovieForm) {
         Movie movie = movieRepository.findById(updateMovieForm.getItemId()).orElseThrow(ElementNotFoundException::new);
