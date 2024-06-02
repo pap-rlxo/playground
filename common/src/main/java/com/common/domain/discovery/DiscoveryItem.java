@@ -1,6 +1,7 @@
 package com.common.domain.discovery;
 
 import com.common.domain.AbstractBaseEntity;
+import com.common.domain.ItemType;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -27,4 +28,7 @@ public class DiscoveryItem extends AbstractBaseEntity {
 
     @Column(nullable = false)
     private int itemStock;
+
+    @Column(name="type", insertable = false, updatable = false)
+    private String type;
 }

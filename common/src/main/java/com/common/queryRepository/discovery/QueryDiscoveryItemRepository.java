@@ -1,12 +1,16 @@
 package com.common.queryRepository.discovery;
 
-import com.common.domain.Item.Item;
-import com.common.domain.Item.QItem;
 import com.common.domain.discovery.DiscoveryItem;
-import com.common.domain.discovery.QDiscoveryItem;
+import com.common.dto.SearchDiscoveryItemDto;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 import static com.common.domain.discovery.QDiscoveryItem.discoveryItem;
 
@@ -19,13 +23,23 @@ public class QueryDiscoveryItemRepository {
         this.query = new JPAQueryFactory(em);
     }
 
-    public Item search() {
-        QItem item = QItem.item;
-        return query.selectFrom(item)
-                .where(item.id.eq(1L))
-                .fetchOne();
-//        return query.selectFrom(discoveryItem)
-//                .where(discoveryItem.id.eq(1L))
-//                .fetchOne();
+    public Page<DiscoveryItem> search(SearchDiscoveryItemDto searchDiscoveryItemDto, Pageable pageable) {
+        BooleanExpression itemTypeCondition = !searchDiscoveryItemDto.getItemTypes().isEmpty() ? discoveryItem.type.in(searchDiscoveryItemDto.getItemTypes().stream().map(Enum::toString).toList()) : null;
+        BooleanExpression itemKeywordCondition = searchDiscoveryItemDto.getKeyword() != null ? discoveryItem.itemName.like("%" + searchDiscoveryItemDto.getKeyword() + "%").or(discoveryItem.itemDescription.like("%" + searchDiscoveryItemDto.getKeyword() + "%")) : null;
+        BooleanExpression minPriceCondition = searchDiscoveryItemDto.getMinPrice() != null ? discoveryItem.itemPrice.goe(searchDiscoveryItemDto.getMinPrice()) : null;
+        BooleanExpression maxPriceCondition = searchDiscoveryItemDto.getMaxPrice() != null ? discoveryItem.itemPrice.loe(searchDiscoveryItemDto.getMaxPrice()) : null;
+        List<DiscoveryItem> discoveryItemsContent = getDiscoveryItemsContent(pageable, itemTypeCondition, itemKeywordCondition, minPriceCondition, maxPriceCondition);
+        Long discoveryItemsCount = getDiscoveryItemsCount(itemTypeCondition, itemKeywordCondition, minPriceCondition, maxPriceCondition);
+        return new PageImpl<>(discoveryItemsContent, pageable, discoveryItemsCount);
+    }
+
+    private Long getDiscoveryItemsCount(BooleanExpression itemTypeCondition, BooleanExpression itemKeywordCondition, BooleanExpression minPriceCondition, BooleanExpression maxPriceCondition) {
+        Long discoveryItemsCount = query.select(discoveryItem.count()).from(discoveryItem).where(itemTypeCondition, itemKeywordCondition, minPriceCondition, maxPriceCondition).fetchOne();
+        return discoveryItemsCount;
+    }
+
+    private List<DiscoveryItem> getDiscoveryItemsContent(Pageable pageable, BooleanExpression itemTypeCondition, BooleanExpression itemKeywordCondition, BooleanExpression minPriceCondition, BooleanExpression maxPriceCondition) {
+        List<DiscoveryItem> discoveryItemsContent = query.selectFrom(discoveryItem).where(itemTypeCondition, itemKeywordCondition, minPriceCondition, maxPriceCondition).offset(pageable.getOffset()).limit(pageable.getPageSize()).fetch();
+        return discoveryItemsContent;
     }
 }
