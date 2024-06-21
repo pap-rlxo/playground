@@ -30,8 +30,7 @@ public class UserServiceImpl implements UserService {
         if (userOptional.isPresent()) {
             throw new RegistrationException();
         }
-        User user = new User(signUpForm.getUserName(), signUpForm.getUserPassword(), Role.USER);
-        user.updatePasswordToEncryptPassword(passwordEncoder.encode(user.getUserPassword()));
+        User user = User.of(signUpForm.getUserName(), passwordEncoder.encode(signUpForm.getUserPassword()), Role.USER);
         return userRepository.save(user);
     }
 

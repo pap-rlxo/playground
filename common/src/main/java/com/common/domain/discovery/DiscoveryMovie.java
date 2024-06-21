@@ -1,14 +1,17 @@
 package com.common.domain.discovery;
 
 import com.common.domain.Genre;
+import com.common.domain.Item.Movie;
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Entity
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @DiscriminatorValue("MOVIE")
 @Getter
 public class DiscoveryMovie extends DiscoveryItem {
@@ -28,7 +31,8 @@ public class DiscoveryMovie extends DiscoveryItem {
     @Column(nullable = true)
     private int movieRating;
 
-    public void update(
+    public static DiscoveryMovie of(
+            Optional<Long> id,
             String title,
             String director,
             LocalDateTime releaseYear,
@@ -40,15 +44,18 @@ public class DiscoveryMovie extends DiscoveryItem {
             String itemName,
             Long sellerId
     ) {
-        this.movieTitle = title;
-        this.movieDirector = director;
-        this.movieReleaseYear = releaseYear;
-        this.movieGenre = genre;
-        this.movieRating = rating;
-        this.setItemDescription(itemDescription);
-        this.setItemPrice(itemPrice);
-        this.setItemStock(itemStock);
-        this.setItemName(itemName);
-        this.setItemSellerId(sellerId);
+        DiscoveryMovie discoveryMovie = new DiscoveryMovie();
+        discoveryMovie.movieTitle = title;
+        discoveryMovie.movieDirector = director;
+        discoveryMovie.movieReleaseYear = releaseYear;
+        discoveryMovie.movieGenre = genre;
+        discoveryMovie.movieRating = rating;
+        discoveryMovie.setItemDescription(itemDescription);
+        discoveryMovie.setItemPrice(itemPrice);
+        discoveryMovie.setItemStock(itemStock);
+        discoveryMovie.setItemName(itemName);
+        discoveryMovie.setItemSellerId(sellerId);
+        id.ifPresent(discoveryMovie::setId);
+        return discoveryMovie;
     }
 }

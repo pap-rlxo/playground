@@ -43,11 +43,11 @@ public class SecurityConfig {
                                 .anyRequest().authenticated()
                 )
                 .formLogin(login -> login    // form 방식 로그인 사용
-                        .loginProcessingUrl("/login_proc") // 로그인 요청 url
+                        .loginProcessingUrl("/api/login_proc") // 로그인 요청 url
                         .successHandler(loginSuccessHandler)
                         .failureHandler(failedHandler)
                 ).logout(logout -> logout
-                        .logoutUrl("/logout")
+                        .logoutUrl("/api/logout")
                         .deleteCookies("JSESSIONID")
                         .addLogoutHandler((request, response, authentication) -> {
                             HttpSession session = request.getSession();

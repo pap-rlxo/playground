@@ -49,24 +49,22 @@ public class InternalDiscoveryItemServiceImpl implements InternalDiscoveryItemSe
     }
 
     private void uploadBook(User user, UploadBookForm uploadBookForm) {
-        DiscoveryBook book = new DiscoveryBook();
-        book.update(uploadBookForm.getAuthor(), uploadBookForm.getPublisher(), uploadBookForm.getPublicationDate(), uploadBookForm.getItemDescription(), uploadBookForm.getItemPrice(), uploadBookForm.getItemStock(), uploadBookForm.getItemName(), user.getId());
-        discoveryBookRepository.save(book);
+        DiscoveryBook discoveryBook = DiscoveryBook.of(Optional.empty(), uploadBookForm.getAuthor(), uploadBookForm.getPublisher(), uploadBookForm.getPublicationDate(), uploadBookForm.getItemDescription(), uploadBookForm.getItemPrice(), uploadBookForm.getItemStock(), uploadBookForm.getItemName(), user.getId());
+        discoveryBookRepository.save(discoveryBook);
     }
 
     private void uploadMovie(User user, UploadMovieForm uploadMovieForm) {
-        DiscoveryMovie movie = new DiscoveryMovie();
-        movie.update(uploadMovieForm.getTitle(), uploadMovieForm.getDirector(), uploadMovieForm.getReleaseYear(), uploadMovieForm.getGenre(), uploadMovieForm.getRating(), uploadMovieForm.getItemDescription(), uploadMovieForm.getItemPrice(), uploadMovieForm.getItemStock(), uploadMovieForm.getItemName(), user.getId());
-        discoveryItemRepository.save(movie);
+        DiscoveryMovie discoveryMovie = DiscoveryMovie.of(Optional.empty(), uploadMovieForm.getTitle(), uploadMovieForm.getDirector(), uploadMovieForm.getReleaseYear(), uploadMovieForm.getGenre(), uploadMovieForm.getRating(), uploadMovieForm.getItemDescription(), uploadMovieForm.getItemPrice(), uploadMovieForm.getItemStock(), uploadMovieForm.getItemName(), user.getId());
+        discoveryItemRepository.save(discoveryMovie);
     }
 
     private void updateBook(User user, UpdateBookForm updateBookForm) {
-        DiscoveryBook book = discoveryBookRepository.findById(updateBookForm.getItemId()).orElseThrow(ElementNotFoundException::new);
-        book.update(updateBookForm.getAuthor(), updateBookForm.getPublisher(), updateBookForm.getPublicationDate(), updateBookForm.getItemDescription(), updateBookForm.getItemPrice(), updateBookForm.getItemStock(), updateBookForm.getItemName(), user.getId());
+        DiscoveryBook discoveryBook = discoveryBookRepository.findById(updateBookForm.getItemId()).orElseThrow(ElementNotFoundException::new);
+        DiscoveryBook.of(Optional.of(discoveryBook.getId()), updateBookForm.getAuthor(), updateBookForm.getPublisher(), updateBookForm.getPublicationDate(), updateBookForm.getItemDescription(), updateBookForm.getItemPrice(), updateBookForm.getItemStock(), updateBookForm.getItemName(), user.getId());
     }
 
     private void updateMovie(User user, UpdateMovieForm updateMovieForm) {
-        DiscoveryMovie movie = discoveryMovieRepository.findById(updateMovieForm.getItemId()).orElseThrow(ElementNotFoundException::new);
-        movie.update(updateMovieForm.getTitle(), updateMovieForm.getDirector(), updateMovieForm.getReleaseYear(), updateMovieForm.getGenre(), updateMovieForm.getRating(), updateMovieForm.getItemDescription(), updateMovieForm.getItemPrice(), updateMovieForm.getItemStock(), updateMovieForm.getItemName(), user.getId());
+        DiscoveryMovie discoveryMovie = discoveryMovieRepository.findById(updateMovieForm.getItemId()).orElseThrow(ElementNotFoundException::new);
+        DiscoveryMovie.of(Optional.of(discoveryMovie.getId()), updateMovieForm.getTitle(), updateMovieForm.getDirector(), updateMovieForm.getReleaseYear(), updateMovieForm.getGenre(), updateMovieForm.getRating(), updateMovieForm.getItemDescription(), updateMovieForm.getItemPrice(), updateMovieForm.getItemStock(), updateMovieForm.getItemName(), user.getId());
     }
 }

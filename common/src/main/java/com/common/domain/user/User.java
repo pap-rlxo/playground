@@ -2,20 +2,15 @@ package com.common.domain.user;
 
 import com.common.domain.AbstractBaseEntity;
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "users", indexes = @Index(columnList = "userName", unique = true))
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class User extends AbstractBaseEntity {
-
-    public User(String userName, String userPassword, Role role) {
-        this.userName = userName;
-        this.userPassword = userPassword;
-        this.userRole = role;
-    }
 
     @Column(nullable = false, length = 8)
     private String userName;
@@ -29,12 +24,11 @@ public class User extends AbstractBaseEntity {
     @Column(nullable = true, length = 8)
     private String userNickname;
 
-    public void updatePasswordToEncryptPassword(String encodedPassword) {
-        userPassword = encodedPassword;
-    }
-
-    public void update(User user) {
-        this.userRole = user.getUserRole();
-        this.userNickname = user.getUserNickname();
+    public static User of(String userName, String userPassword, Role role) {
+        User user = new User();
+        user.userName = userName;
+        user.userPassword = userPassword;
+        user.userRole = role;
+        return user;
     }
 }

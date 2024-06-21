@@ -4,14 +4,16 @@ import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Entity
 @Table(name = "books")
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @DiscriminatorValue("BOOK")
 @Getter
 public class Book extends Item {
@@ -25,24 +27,17 @@ public class Book extends Item {
     @Column(nullable = false)
     private LocalDateTime bookPublicationDate;
 
-    public void update(
-            String author,
-            String publisher,
-            LocalDateTime publicationDate,
-            String itemDescription,
-            Long itemPrice,
-            int itemStock,
-            String itemName,
-            Long sellerId
-    ) {
-        this.bookAuthor = author;
-        this.bookPublisher = publisher;
-        this.bookPublicationDate = publicationDate;
-        this.setItemDescription(itemDescription);
-        this.setItemPrice(itemPrice);
-        this.setItemStock(itemStock);
-        this.setItemName(itemName);
-        this.setItemSellerId(sellerId);
+    public static Book of(Optional<Long> id, String author, String publisher, LocalDateTime publicationDate, String itemDescription, Long itemPrice, int itemStock, String itemName, Long sellerId) {
+        Book book = new Book();
+        book.bookAuthor = author;
+        book.bookPublisher = publisher;
+        book.bookPublicationDate = publicationDate;
+        book.setItemDescription(itemDescription);
+        book.setItemPrice(itemPrice);
+        book.setItemStock(itemStock);
+        book.setItemName(itemName);
+        book.setItemSellerId(sellerId);
+        id.ifPresent(book::setId);
+        return book;
     }
 }
-
