@@ -1,17 +1,12 @@
 package com.common.domain.discovery;
 
 import com.common.domain.Genre;
-import com.common.domain.Item.Movie;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
-
 import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Entity
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @DiscriminatorValue("MOVIE")
 @Getter
 public class DiscoveryMovie extends DiscoveryItem {
@@ -55,7 +50,7 @@ public class DiscoveryMovie extends DiscoveryItem {
         discoveryMovie.setItemStock(itemStock);
         discoveryMovie.setItemName(itemName);
         discoveryMovie.setItemSellerId(sellerId);
-        id.ifPresent(discoveryMovie::setId);
+//        id.ifPresent(discoveryMovie::set);
         return discoveryMovie;
     }
 }

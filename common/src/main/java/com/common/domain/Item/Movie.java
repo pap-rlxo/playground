@@ -6,6 +6,7 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.cglib.core.Local;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -15,48 +16,89 @@ import java.util.Optional;
 @Table(name = "movies")
 @DiscriminatorValue("MOVIE")
 @Getter
-final public class Movie extends Item {
+public class Movie extends Item {
 
-    @Column(nullable = false, length = 8)
+    @Column(nullable = true, length = 8)
     private String movieTitle;
 
-    @Column(nullable = false, length = 8)
+    @Column(nullable = true, length = 8)
     private String movieDirector;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private LocalDateTime movieReleaseYear;
 
     @Enumerated(EnumType.STRING)
     private Genre movieGenre;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private int movieRating;
 
-    public static Movie of(
-            Optional<Long> id,
-            String title,
-            String director,
-            LocalDateTime releaseYear,
-            Genre genre,
-            int rating,
-            String itemDescription,
-            Long itemPrice,
-            int itemStock,
-            String itemName,
-            Long sellerId
-    ) {
-        Movie movie = new Movie();
-        movie.movieTitle = title;
-        movie.movieDirector = director;
-        movie.movieReleaseYear = releaseYear;
-        movie.movieGenre = genre;
-        movie.movieRating = rating;
-        movie.setItemDescription(itemDescription);
-        movie.setItemPrice(itemPrice);
-        movie.setItemStock(itemStock);
-        movie.setItemName(itemName);
-        movie.setItemSellerId(sellerId);
-        id.ifPresent(movie::setId);
-        return movie;
+
+    private Movie(Builder builder) {
+        super(builder);
+        movieTitle = builder.movieTitle;
+        movieDirector = builder.movieDirector;
+        movieReleaseYear = builder.movieReleaseYear;
+        movieGenre = builder.movieGenre;
+        movieRating = builder.movieRating;
+    }
+
+    public static class Builder extends Item.Builder<Builder> {
+
+        private String movieTitle;
+        private String movieDirector;
+        private LocalDateTime movieReleaseYear;
+        private Genre movieGenre;
+        private int movieRating;
+
+        public Builder(Long itemSellerId, String itemName, String itemDescription, Long itemPrice, int itemStock) {
+            super(itemSellerId, itemName, itemDescription, itemPrice, itemStock);
+        }
+
+        public Builder setMovieTitle(String movieTitle) {
+            this.movieTitle = movieTitle;
+            return this;
+        }
+
+        public Builder setMovieDirector(String movieDirector) {
+            this.movieDirector = movieDirector;
+            return this;
+        }
+
+        public Builder setMovieReleaseYear(LocalDateTime movieReleaseYear) {
+            this.movieReleaseYear = movieReleaseYear;
+            return this;
+        }
+
+        public Builder setGenre(Genre genre) {
+            this.movieGenre = genre;
+            return this;
+        }
+
+        public Builder setRating(int rating) {
+            this.movieRating = rating;
+            return this;
+        }
+
+        @Override
+        public Movie build() {
+            return new Movie(this);
+        }
+
+        @Override
+        protected Movie.Builder self() {
+            return this;
+        }
+    }
+
+    public static Movie of(Optional<Long> id, String title, String director, LocalDateTime releaseYear, Genre genre, int rating, String itemDescription, Long itemPrice, int itemStock, String itemName, Long sellerId) {
+        Builder builder = new Builder(sellerId, itemName, itemDescription, itemPrice, itemStock);
+        builder.movieTitle = title;
+        builder.movieDirector = director;
+        builder.movieReleaseYear = releaseYear;
+        builder.movieGenre = genre;
+        builder.movieRating = rating;
+        id.ifPresent(builder::setId);
+        return builder.build();
     }
 }

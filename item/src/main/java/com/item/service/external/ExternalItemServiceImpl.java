@@ -38,7 +38,7 @@ public class ExternalItemServiceImpl implements ExternalItemService {
     @Transactional(readOnly = false)
     @Override
     public Movie uploadMovie(User user, UploadMovieForm uploadMovieForm) {
-        Movie movie = Movie.of(Optional.empty(),uploadMovieForm.getTitle(), uploadMovieForm.getDirector(), uploadMovieForm.getReleaseYear(), uploadMovieForm.getGenre(), uploadMovieForm.getRating(), uploadMovieForm.getItemDescription(), uploadMovieForm.getItemPrice(), uploadMovieForm.getItemStock(), uploadMovieForm.getItemName(), user.getId());
+        Movie movie = Movie.of(Optional.empty(), uploadMovieForm.getTitle(), uploadMovieForm.getDirector(), uploadMovieForm.getReleaseYear(), uploadMovieForm.getGenre(), uploadMovieForm.getRating(), uploadMovieForm.getItemDescription(), uploadMovieForm.getItemPrice(), uploadMovieForm.getItemStock(), uploadMovieForm.getItemName(), user.getId());
         return itemRepository.save(movie);
     }
 
@@ -46,13 +46,15 @@ public class ExternalItemServiceImpl implements ExternalItemService {
     @Override
     public Book updateBook(User user, UpdateBookForm updateBookForm) {
         Book book = bookRepository.findById(updateBookForm.getItemId()).orElseThrow(ElementNotFoundException::new);
-        return Book.of(Optional.of(book.getId()), updateBookForm.getAuthor(), updateBookForm.getPublisher(), updateBookForm.getPublicationDate(), updateBookForm.getItemDescription(), updateBookForm.getItemPrice(), updateBookForm.getItemStock(), updateBookForm.getItemName(), user.getId());
+        Book updatedBook = Book.of(Optional.of(book.getId()), updateBookForm.getAuthor(), updateBookForm.getPublisher(), updateBookForm.getPublicationDate(), updateBookForm.getItemDescription(), updateBookForm.getItemPrice(), updateBookForm.getItemStock(), updateBookForm.getItemName(), user.getId());
+        return itemRepository.save(updatedBook);
     }
 
     @Transactional(readOnly = false)
     @Override
     public Movie updateMovie(User user, UpdateMovieForm updateMovieForm) {
         Movie movie = movieRepository.findById(updateMovieForm.getItemId()).orElseThrow(ElementNotFoundException::new);
-        return Movie.of(Optional.of(movie.getId()), updateMovieForm.getTitle(), updateMovieForm.getDirector(), updateMovieForm.getReleaseYear(), updateMovieForm.getGenre(), updateMovieForm.getRating(), updateMovieForm.getItemDescription(), updateMovieForm.getItemPrice(), updateMovieForm.getItemStock(), updateMovieForm.getItemName(), user.getId());
+        Movie updatedMovie = Movie.of(Optional.of(movie.getId()), updateMovieForm.getTitle(), updateMovieForm.getDirector(), updateMovieForm.getReleaseYear(), updateMovieForm.getGenre(), updateMovieForm.getRating(), updateMovieForm.getItemDescription(), updateMovieForm.getItemPrice(), updateMovieForm.getItemStock(), updateMovieForm.getItemName(), user.getId());
+        return movieRepository.save(updatedMovie);
     }
 }

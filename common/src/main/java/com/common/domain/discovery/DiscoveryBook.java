@@ -1,6 +1,5 @@
 package com.common.domain.discovery;
 
-import com.common.domain.Item.Book;
 import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
@@ -12,7 +11,6 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Entity
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @DiscriminatorValue("BOOK")
 @Getter
 public class DiscoveryBook extends DiscoveryItem {
@@ -37,7 +35,7 @@ public class DiscoveryBook extends DiscoveryItem {
         discoveryBook.setItemStock(itemStock);
         discoveryBook.setItemName(itemName);
         discoveryBook.setItemSellerId(sellerId);
-        id.ifPresent(discoveryBook::setId);
+//        id.ifPresent(discoveryBook::setId);
         return discoveryBook;
     }
 }

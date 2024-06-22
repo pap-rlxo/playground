@@ -30,15 +30,13 @@ public class UserServiceImpl implements UserService {
         if (userOptional.isPresent()) {
             throw new RegistrationException();
         }
-        User user = User.of(signUpForm.getUserName(), passwordEncoder.encode(signUpForm.getUserPassword()), Role.USER);
+        User user = User.of(Optional.empty(), signUpForm.getUserNickname(), signUpForm.getUserName(), passwordEncoder.encode(signUpForm.getUserPassword()), Role.USER);
         return userRepository.save(user);
     }
 
     @Override
     @Transactional(readOnly = true)
     public User get(Long id) {
-        return userRepository.findById(id).orElseThrow(
-                ElementNotFoundException::new
-        );
+        return userRepository.findById(id).orElseThrow(ElementNotFoundException::new);
     }
 }

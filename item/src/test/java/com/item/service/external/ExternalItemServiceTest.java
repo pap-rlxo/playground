@@ -2,7 +2,6 @@ package com.item.service.external;
 
 import com.common.domain.Genre;
 import com.common.domain.Item.Book;
-import com.common.domain.Item.Item;
 import com.common.domain.Item.Movie;
 import com.common.domain.user.Role;
 import com.common.domain.user.User;
@@ -23,6 +22,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -50,9 +50,9 @@ class ExternalItemServiceTest {
     void setUp() {
         SignUpForm signUpForm = new SignUpForm();
         signUpForm.setUserName("test");
-        signUpForm.setUserPassword("testUserPassword");
-        signUpForm.setUserNickname("testUserNickname");
-        User user = User.of(signUpForm.getUserName(), passwordEncoder.encode(signUpForm.getUserPassword()), Role.USER);
+        signUpForm.setUserPassword("testup");
+        signUpForm.setUserNickname("testun");
+        User user = User.of(Optional.empty(), signUpForm.getUserNickname(), signUpForm.getUserName(), passwordEncoder.encode(signUpForm.getUserPassword()), Role.USER);
         userRepository.save(user);
     }
 
@@ -69,6 +69,9 @@ class ExternalItemServiceTest {
         uploadBookForm.setItemName("name");
         Book uploadBook = externalItemService.uploadBook(user, uploadBookForm);
         assertThat(uploadBook).isNotNull();
+        assertThat(uploadBook.getBookPublisher()).isEqualTo(uploadBookForm.getPublisher());
+        assertThat(uploadBook.getItemName()).isEqualTo(uploadBookForm.getItemName());
+        assertThat(uploadBook.getId()).isNotNull();
     }
 
     @Test
@@ -86,6 +89,9 @@ class ExternalItemServiceTest {
         uploadMovieForm.setTitle("title");
         Movie uploadMovie = externalItemService.uploadMovie(user, uploadMovieForm);
         assertThat(uploadMovie).isNotNull();
+        assertThat(uploadMovie.getItemDescription()).isEqualTo(uploadMovieForm.getItemDescription());
+        assertThat(uploadMovie.getMovieRating()).isEqualTo(uploadMovieForm.getRating());
+        assertThat(uploadMovie.getId()).isNotNull();
     }
 
     @Test
@@ -102,11 +108,11 @@ class ExternalItemServiceTest {
         updateBookForm.setItemPrice(123124L);
         updateBookForm.setItemName("uname");
         updateBookForm.setItemId(book.getId());
-        Book updateBook = externalItemService.updateBook(user, updateBookForm);
-        List<Item> allItems = itemRepository.findAll();
-        assertThat(allItems.size()).isEqualTo(1);
-        assertThat(updateBook).isNotNull();
-        assertThat(updateBook.getBookPublisher()).isEqualTo(updateBookForm.getPublisher());
+        externalItemService.updateBook(user, updateBookForm);
+        List<Book> allBooks = bookRepository.findAll();
+        assertThat(allBooks.size()).isEqualTo(1);
+        assertThat(allBooks.getFirst().getBookAuthor()).isEqualTo(updateBookForm.getAuthor());
+        assertThat(allBooks.getFirst().getItemName()).isEqualTo(updateBookForm.getItemName());
     }
 
     @Test
@@ -115,20 +121,20 @@ class ExternalItemServiceTest {
         Movie movie = movieRepository.findAll().getFirst();
         User user = userRepository.findAll().getFirst();
         UpdateMovieForm updateMovieForm = new UpdateMovieForm();
-        updateMovieForm.setItemDescription("udescription");
+        updateMovieForm.setItemDescription("udesc");
         updateMovieForm.setItemStock(124);
         updateMovieForm.setItemPrice(123124L);
         updateMovieForm.setItemName("uname");
         updateMovieForm.setReleaseYear(LocalDateTime.now());
         updateMovieForm.setGenre(Genre.COMEDY);
-        updateMovieForm.setDirector("udirector");
+        updateMovieForm.setDirector("hdir");
         updateMovieForm.setRating(13);
         updateMovieForm.setTitle("utitle");
         updateMovieForm.setItemId(movie.getId());
-        Movie updateMovie = externalItemService.updateMovie(user, updateMovieForm);
-        List<Item> allItems = itemRepository.findAll();
-        assertThat(allItems.size()).isEqualTo(1);
-        assertThat(updateMovie).isNotNull();
-        assertThat(updateMovie.getMovieGenre()).isEqualTo(updateMovieForm.getGenre());
+        externalItemService.updateMovie(user, updateMovieForm);
+        List<Movie> allMovies = movieRepository.findAll();
+        assertThat(allMovies.size()).isEqualTo(1);
+        assertThat(allMovies.getFirst().getMovieGenre()).isEqualTo(updateMovieForm.getGenre());
+        assertThat(allMovies.getFirst().getItemName()).isEqualTo(updateMovieForm.getItemName());
     }
 }

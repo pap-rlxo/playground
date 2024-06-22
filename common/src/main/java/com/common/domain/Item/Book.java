@@ -1,5 +1,6 @@
 package com.common.domain.Item;
 
+import com.common.domain.AbstractBaseEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
@@ -18,26 +19,65 @@ import java.util.Optional;
 @Getter
 public class Book extends Item {
 
-    @Column(nullable = false, length = 8)
+    @Column(nullable = true, length = 8)
     private String bookAuthor;
 
-    @Column(nullable = false, length = 8)
+    @Column(nullable = true, length = 8)
     private String bookPublisher;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private LocalDateTime bookPublicationDate;
 
+
+    private Book(Builder builder) {
+        super(builder);
+        bookAuthor = builder.bookAuthor;
+        bookPublisher = builder.bookPublisher;
+        bookPublicationDate = builder.bookPublicationDate;
+    }
+
+    public static class Builder extends Item.Builder<Builder> {
+
+        private String bookAuthor;
+        private String bookPublisher;
+        private LocalDateTime bookPublicationDate;
+
+        public Builder(Long itemSellerId, String itemName, String itemDescription, Long itemPrice, int itemStock) {
+           super(itemSellerId, itemName, itemDescription, itemPrice, itemStock);
+        }
+
+        public Builder setBookAuthor(String bookAuthor) {
+            this.bookAuthor = bookAuthor;
+            return this;
+        }
+
+        public Builder setBookPublisher(String bookPublisher) {
+            this.bookPublisher = bookPublisher;
+            return this;
+        }
+
+        public Builder setBookPublicationDate(LocalDateTime bookPublicationDate) {
+            this.bookPublicationDate = bookPublicationDate;
+            return this;
+        }
+
+        @Override
+        public Book build() {
+            return new Book(this);
+        }
+
+        @Override
+        protected Book.Builder self() {
+            return this;
+        }
+    }
+
     public static Book of(Optional<Long> id, String author, String publisher, LocalDateTime publicationDate, String itemDescription, Long itemPrice, int itemStock, String itemName, Long sellerId) {
-        Book book = new Book();
-        book.bookAuthor = author;
-        book.bookPublisher = publisher;
-        book.bookPublicationDate = publicationDate;
-        book.setItemDescription(itemDescription);
-        book.setItemPrice(itemPrice);
-        book.setItemStock(itemStock);
-        book.setItemName(itemName);
-        book.setItemSellerId(sellerId);
-        id.ifPresent(book::setId);
-        return book;
+        Builder builder = new Builder(sellerId, itemName, itemDescription, itemPrice, itemStock);
+        builder.setBookAuthor(author);
+        builder.setBookPublisher(publisher);
+        builder.setBookPublicationDate(publicationDate);
+        id.ifPresent(builder::setId);
+        return builder.build();
     }
 }
