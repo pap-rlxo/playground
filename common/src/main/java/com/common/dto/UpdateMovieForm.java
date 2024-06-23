@@ -1,10 +1,39 @@
 package com.common.dto;
 
+import com.common.domain.Genre;
 import jakarta.validation.constraints.NotNull;
-import lombok.Data;
 
-@Data
-public class UpdateMovieForm extends UploadMovieForm{
-    @NotNull(message = "ItemId is required")
-    private Long itemId;
+import java.time.LocalDateTime;
+
+public record UpdateMovieForm(
+        @NotNull(message = "ItemId is required")
+        Long itemId,
+
+        @NotNull(message = "Director is required")
+        String director,
+
+        Genre genre,
+
+        @NotNull(message = "Rating is required")
+
+        int rating,
+
+        @NotNull(message = "ReleaseYear is required")
+        LocalDateTime releaseYear,
+
+        @NotNull(message = "Title is required")
+        String title,
+
+        @NotNull(message = "Description is required")
+        String itemDescription,
+
+        @NotNull(message = "Name is required")
+        String itemName,
+
+        @NotNull(message = "Price is required")
+        Long itemPrice,
+
+        @NotNull(message = "Stock is required")
+        int itemStock
+) {
 }

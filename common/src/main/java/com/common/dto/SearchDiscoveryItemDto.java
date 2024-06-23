@@ -1,7 +1,13 @@
 package com.common.dto;
 
-import lombok.Data;
+import com.common.domain.ItemType;
 
-@Data
-public class SearchDiscoveryItemDto extends SearchItemDto {
+import java.util.List;
+
+public record SearchDiscoveryItemDto(
+        String keyword,
+        List<ItemType> itemTypes,
+        Long minPrice,
+        Long maxPrice
+) {
 }

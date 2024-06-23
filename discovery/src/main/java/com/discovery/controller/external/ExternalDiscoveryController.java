@@ -2,7 +2,6 @@ package com.discovery.controller.external;
 
 import com.common.domain.discovery.DiscoveryItem;
 import com.common.dto.SearchDiscoveryItemDto;
-import com.common.dto.SearchItemDto;
 import com.discovery.service.external.ExternalDiscoveryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -19,17 +18,8 @@ public class ExternalDiscoveryController {
     private final ExternalDiscoveryService externalDiscoveryService;
 
     @GetMapping("/search/items")
-    public ResponseEntity<Page<DiscoveryItem>> searchItem(@ModelAttribute SearchItemDto searchItemDto, Pageable pageable) {
-        Page<DiscoveryItem> discoveryItems = externalDiscoveryService.search(toSearchDiscoveryItemDto(searchItemDto), pageable);
+    public ResponseEntity<Page<DiscoveryItem>> searchItem(@ModelAttribute SearchDiscoveryItemDto searchDiscoveryItemDto, Pageable pageable) {
+        Page<DiscoveryItem> discoveryItems = externalDiscoveryService.search(searchDiscoveryItemDto, pageable);
         return ResponseEntity.status(HttpStatus.OK).body(discoveryItems);
-    }
-
-    private SearchDiscoveryItemDto toSearchDiscoveryItemDto(SearchItemDto searchItemDto) {
-        SearchDiscoveryItemDto searchDiscoveryItemDto = new SearchDiscoveryItemDto();
-        searchDiscoveryItemDto.setItemTypes(searchItemDto.getItemTypes());
-        searchDiscoveryItemDto.setKeyword(searchItemDto.getKeyword());
-        searchDiscoveryItemDto.setMaxPrice(searchItemDto.getMaxPrice());
-        searchDiscoveryItemDto.setMinPrice(searchItemDto.getMinPrice());
-        return searchDiscoveryItemDto;
     }
 }

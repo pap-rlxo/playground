@@ -6,5 +6,5 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 public interface ExternalDiscoveryService {
-    Page<DiscoveryItem> search(SearchDiscoveryItemDto searchItemDto, Pageable pageable);
+    Page<DiscoveryItem> search(SearchDiscoveryItemDto searchDiscoveryItemDto, Pageable pageable);
 }

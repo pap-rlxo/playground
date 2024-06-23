@@ -26,11 +26,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User signUp(SignUpForm signUpForm) {
-        Optional<User> userOptional = userRepository.findByUserName(signUpForm.getUserName());
+        Optional<User> userOptional = userRepository.findByUserName(signUpForm.userName());
         if (userOptional.isPresent()) {
             throw new RegistrationException();
         }
-        User user = User.of(Optional.empty(), signUpForm.getUserNickname(), signUpForm.getUserName(), passwordEncoder.encode(signUpForm.getUserPassword()), Role.USER);
+        User user = User.of(Optional.empty(), signUpForm.userNickname(), signUpForm.userName(), passwordEncoder.encode(signUpForm.userPassword()), Role.USER);
         return userRepository.save(user);
     }
 

@@ -21,14 +21,15 @@ class UserServiceTest {
 
     @Test
     void signUp() {
-        SignUpForm signUpForm = new SignUpForm();
-        signUpForm.setUserName("test");
-        signUpForm.setUserPassword("testPassword");
-        signUpForm.setUserNickname("tnick");
+        SignUpForm signUpForm = new SignUpForm(
+                "test",
+                "testPass",
+                "tnick"
+        );
         User signupUser = userService.signUp(signUpForm);
-        assertThat(signupUser.getUserPassword()).isNotEqualTo(signUpForm.getUserPassword());
-        assertThat(signupUser.getUserName()).isEqualTo(signUpForm.getUserName());
-        assertThat(signupUser.getUserNickname()).isEqualTo(signUpForm.getUserNickname());
+        assertThat(signupUser.getUserPassword()).isNotEqualTo(signUpForm.userPassword());
+        assertThat(signupUser.getUserName()).isEqualTo(signUpForm.userName());
+        assertThat(signupUser.getUserNickname()).isEqualTo(signUpForm.userNickname());
         assertThat(signupUser.getId()).isNotNull();
         assertThat(signupUser.getCreatedAt()).isNotNull();
         assertThat(signupUser.getUpdatedAt()).isNotNull();

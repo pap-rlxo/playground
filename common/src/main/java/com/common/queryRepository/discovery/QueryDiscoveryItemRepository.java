@@ -24,10 +24,10 @@ public class QueryDiscoveryItemRepository {
     }
 
     public Page<DiscoveryItem> search(SearchDiscoveryItemDto searchDiscoveryItemDto, Pageable pageable) {
-        BooleanExpression itemTypeCondition = !searchDiscoveryItemDto.getItemTypes().isEmpty() ? discoveryItem.type.in(searchDiscoveryItemDto.getItemTypes().stream().map(Enum::toString).toList()) : null;
-        BooleanExpression itemKeywordCondition = searchDiscoveryItemDto.getKeyword() != null ? discoveryItem.itemName.like("%" + searchDiscoveryItemDto.getKeyword() + "%").or(discoveryItem.itemDescription.like("%" + searchDiscoveryItemDto.getKeyword() + "%")) : null;
-        BooleanExpression minPriceCondition = searchDiscoveryItemDto.getMinPrice() != null ? discoveryItem.itemPrice.goe(searchDiscoveryItemDto.getMinPrice()) : null;
-        BooleanExpression maxPriceCondition = searchDiscoveryItemDto.getMaxPrice() != null ? discoveryItem.itemPrice.loe(searchDiscoveryItemDto.getMaxPrice()) : null;
+        BooleanExpression itemTypeCondition = !searchDiscoveryItemDto.itemTypes().isEmpty() ? discoveryItem.type.in(searchDiscoveryItemDto.itemTypes().stream().map(Enum::toString).toList()) : null;
+        BooleanExpression itemKeywordCondition = searchDiscoveryItemDto.keyword() != null ? discoveryItem.itemName.like("%" + searchDiscoveryItemDto.keyword() + "%").or(discoveryItem.itemDescription.like("%" + searchDiscoveryItemDto.keyword() + "%")) : null;
+        BooleanExpression minPriceCondition = searchDiscoveryItemDto.minPrice() != null ? discoveryItem.itemPrice.goe(searchDiscoveryItemDto.minPrice()) : null;
+        BooleanExpression maxPriceCondition = searchDiscoveryItemDto.maxPrice() != null ? discoveryItem.itemPrice.loe(searchDiscoveryItemDto.maxPrice()) : null;
         List<DiscoveryItem> discoveryItemsContent = getDiscoveryItemsContent(pageable, itemTypeCondition, itemKeywordCondition, minPriceCondition, maxPriceCondition);
         Long discoveryItemsCount = getDiscoveryItemsCount(itemTypeCondition, itemKeywordCondition, minPriceCondition, maxPriceCondition);
         return new PageImpl<>(discoveryItemsContent, pageable, discoveryItemsCount);

@@ -61,30 +61,33 @@ public class KafkaConsumer {
 
     private void uploadMovie(Movie movie) {
         User user = userRepository.findById(movie.getItemSellerId()).get();
-        UpdateMovieForm form = new UpdateMovieForm();
-        form.setTitle(movie.getMovieTitle());
-        form.setRating(movie.getMovieRating());
-        form.setGenre(movie.getMovieGenre());
-        form.setDirector(movie.getMovieDirector());
-        form.setItemPrice(movie.getItemPrice());
-        form.setItemStock(movie.getItemStock());
-        form.setItemName(movie.getItemName());
-        form.setItemDescription(movie.getItemDescription());
-        form.setItemId(movie.getId());
+        UpdateMovieForm form = new UpdateMovieForm(
+                movie.getId(),
+                movie.getMovieDirector(),
+                movie.getMovieGenre(),
+                movie.getMovieRating(),
+                movie.getMovieReleaseYear(),
+                movie.getMovieTitle(),
+                movie.getItemDescription(),
+                movie.getItemName(),
+                movie.getItemPrice(),
+                movie.getItemStock()
+        );
         internalDiscoveryItemService.upsertMovie(user, form);
     }
 
     private void uploadBook(Book book) {
         User user = userRepository.findById(book.getItemSellerId()).get();
-        UpdateBookForm form = new UpdateBookForm();
-        form.setAuthor(book.getBookAuthor());
-        form.setPublicationDate(book.getBookPublicationDate());
-        form.setPublisher(book.getBookPublisher());
-        form.setItemPrice(book.getItemPrice());
-        form.setItemStock(book.getItemStock());
-        form.setItemName(book.getItemName());
-        form.setItemDescription(book.getItemDescription());
-        form.setItemId(book.getId());
+        UpdateBookForm form = new UpdateBookForm(
+                book.getId(),
+                book.getBookAuthor(),
+                book.getBookPublicationDate(),
+                book.getBookPublisher(),
+                book.getItemDescription(),
+                book.getItemName(),
+                book.getItemPrice(),
+                book.getItemStock()
+        );
         internalDiscoveryItemService.upsertBook(user, form);
     }
 }

@@ -1,12 +1,14 @@
 package com.common.dto;
 
 import com.common.domain.user.Role;
-import lombok.Data;
 
-@Data
-public class UserDto extends AbstractBaseDto {
+import java.time.LocalDateTime;
 
-    private String userName;
-    private Role userRole;
-    private String userNickname;
-}
+public record UserDto(
+        Long id,
+        String userName,
+        Role userRole,
+        String userNickname,
+        LocalDateTime createdAt,
+        LocalDateTime updatedAt
+){}
