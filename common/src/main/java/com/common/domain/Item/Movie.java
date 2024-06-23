@@ -55,27 +55,27 @@ public class Movie extends Item {
             super(itemSellerId, itemName, itemDescription, itemPrice, itemStock);
         }
 
-        public Builder setMovieTitle(String movieTitle) {
+        public Builder movieTitle(String movieTitle) {
             this.movieTitle = movieTitle;
             return this;
         }
 
-        public Builder setMovieDirector(String movieDirector) {
+        public Builder movieDirector(String movieDirector) {
             this.movieDirector = movieDirector;
             return this;
         }
 
-        public Builder setMovieReleaseYear(LocalDateTime movieReleaseYear) {
+        public Builder movieReleaseYear(LocalDateTime movieReleaseYear) {
             this.movieReleaseYear = movieReleaseYear;
             return this;
         }
 
-        public Builder setGenre(Genre genre) {
+        public Builder movieGenre(Genre genre) {
             this.movieGenre = genre;
             return this;
         }
 
-        public Builder setRating(int rating) {
+        public Builder movieRating(int rating) {
             this.movieRating = rating;
             return this;
         }
@@ -93,11 +93,11 @@ public class Movie extends Item {
 
     public static Movie of(Optional<Long> id, String title, String director, LocalDateTime releaseYear, Genre genre, int rating, String itemDescription, Long itemPrice, int itemStock, String itemName, Long sellerId) {
         Builder builder = new Builder(sellerId, itemName, itemDescription, itemPrice, itemStock);
-        builder.movieTitle = title;
-        builder.movieDirector = director;
-        builder.movieReleaseYear = releaseYear;
-        builder.movieGenre = genre;
-        builder.movieRating = rating;
+        builder.movieTitle(title);
+        builder.movieDirector(director);
+        builder.movieReleaseYear(releaseYear);
+        builder.movieGenre(genre);
+        builder.movieRating(rating);
         id.ifPresent(builder::setId);
         return builder.build();
     }

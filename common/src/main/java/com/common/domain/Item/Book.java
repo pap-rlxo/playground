@@ -1,6 +1,5 @@
 package com.common.domain.Item;
 
-import com.common.domain.AbstractBaseEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
@@ -46,17 +45,17 @@ public class Book extends Item {
            super(itemSellerId, itemName, itemDescription, itemPrice, itemStock);
         }
 
-        public Builder setBookAuthor(String bookAuthor) {
+        public Builder bookAuthor(String bookAuthor) {
             this.bookAuthor = bookAuthor;
             return this;
         }
 
-        public Builder setBookPublisher(String bookPublisher) {
+        public Builder bookPublisher(String bookPublisher) {
             this.bookPublisher = bookPublisher;
             return this;
         }
 
-        public Builder setBookPublicationDate(LocalDateTime bookPublicationDate) {
+        public Builder bookPublicationDate(LocalDateTime bookPublicationDate) {
             this.bookPublicationDate = bookPublicationDate;
             return this;
         }
@@ -74,9 +73,9 @@ public class Book extends Item {
 
     public static Book of(Optional<Long> id, String author, String publisher, LocalDateTime publicationDate, String itemDescription, Long itemPrice, int itemStock, String itemName, Long sellerId) {
         Builder builder = new Builder(sellerId, itemName, itemDescription, itemPrice, itemStock);
-        builder.setBookAuthor(author);
-        builder.setBookPublisher(publisher);
-        builder.setBookPublicationDate(publicationDate);
+        builder.bookAuthor(author);
+        builder.bookPublisher(publisher);
+        builder.bookPublicationDate(publicationDate);
         id.ifPresent(builder::setId);
         return builder.build();
     }

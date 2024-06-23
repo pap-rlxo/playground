@@ -45,9 +45,6 @@ public class Item extends AbstractBaseEntity {
             this.itemPrice = itemPrice;
             this.itemStock = itemStock;
         }
-
-        @Override
-        public abstract Item build();
     }
 
     protected Item(Builder<?> builder) {

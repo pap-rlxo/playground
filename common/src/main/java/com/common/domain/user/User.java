@@ -48,12 +48,12 @@ public class User extends AbstractBaseEntity {
             this.userPassword = userPassword;
         }
 
-        public Builder setUserRole(Role role) {
+        public Builder userRole(Role role) {
             this.role = role;
             return this;
         }
 
-        public Builder setUserNickname(String userNickname) {
+        public Builder userNickname(String userNickname) {
             this.userNickname = userNickname;
             return this;
         }
@@ -71,8 +71,8 @@ public class User extends AbstractBaseEntity {
 
     public static User of(Optional<Long> id, String userNickname, String userName, String userPassword, Role role) {
         Builder builder = new Builder(userName, userPassword);
-        builder.setUserNickname(userNickname);
-        builder.setUserRole(role);
+        builder.userNickname(userNickname);
+        builder.userRole(role);
         id.ifPresent(builder::setId);
         return builder.build();
     }
