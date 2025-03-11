@@ -22,7 +22,6 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-    private final MessageSource ms;
 
     @Override
     public User signUp(SignUpForm signUpForm) {

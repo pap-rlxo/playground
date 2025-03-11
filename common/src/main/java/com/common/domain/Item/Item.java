@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 public class Item extends AbstractBaseEntity {
 
     @Column(nullable = false)
-    private  Long itemSellerId;
+    private Long itemSellerId;
 
     @Column(nullable = false, length = 8)
     private String itemName;

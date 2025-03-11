@@ -48,21 +48,6 @@ public class InternalDiscoveryItemServiceImpl implements InternalDiscoveryItemSe
         }
     }
 
-    private static UploadMovieForm getUploadMovieForm(UpdateMovieForm updateMovieForm) {
-        UploadMovieForm uploadMovieForm = new UploadMovieForm(
-                updateMovieForm.director(),
-                updateMovieForm.genre(),
-                updateMovieForm.rating(),
-                updateMovieForm.releaseYear(),
-                updateMovieForm.title(),
-                updateMovieForm.itemDescription(),
-                updateMovieForm.itemName(),
-                updateMovieForm.itemPrice(),
-                updateMovieForm.itemStock()
-        );
-        return uploadMovieForm;
-    }
-
     private void uploadBook(User user, UploadBookForm uploadBookForm) {
         DiscoveryBook discoveryBook = DiscoveryBook.of(Optional.empty(), uploadBookForm.author(), uploadBookForm.publisher(), uploadBookForm.publicationDate(), uploadBookForm.itemDescription(), uploadBookForm.itemPrice(), uploadBookForm.itemStock(), uploadBookForm.itemName(), user.getId());
         discoveryBookRepository.save(discoveryBook);
@@ -94,5 +79,20 @@ public class InternalDiscoveryItemServiceImpl implements InternalDiscoveryItemSe
                 updateBookForm.itemStock()
         );
         return uploadBookForm;
+    }
+
+    private static UploadMovieForm getUploadMovieForm(UpdateMovieForm updateMovieForm) {
+        UploadMovieForm uploadMovieForm = new UploadMovieForm(
+                updateMovieForm.director(),
+                updateMovieForm.genre(),
+                updateMovieForm.rating(),
+                updateMovieForm.releaseYear(),
+                updateMovieForm.title(),
+                updateMovieForm.itemDescription(),
+                updateMovieForm.itemName(),
+                updateMovieForm.itemPrice(),
+                updateMovieForm.itemStock()
+        );
+        return uploadMovieForm;
     }
 }
